@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vondo Bank | Global Payments</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    color:#14213d;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#071a3d;
+    color:white;
+    padding:25px 15px;
+    z-index:1000;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    padding:0 15px 35px;
+}
+
+.logo span{
+    color:#39d98a;
+}
+
+.menu-title{
+    color:#8492a8;
+    font-size:11px;
+    margin:18px 15px 8px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.sidebar a{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    color:#c8d2e2;
+    text-decoration:none;
+    padding:13px 15px;
+    margin:4px 0;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+    background:#12315d;
+    color:white;
+}
+
+.sidebar a.active{
+    border-left:3px solid #39d98a;
+}
+
+/* MAIN */
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid #e4e8ef;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+}
+
+.menu-btn{
+    display:none;
+    background:none;
+    border:0;
+    font-size:25px;
+}
+
+.topbar h2{
+    font-size:20px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+    background:#39d98a;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.content{
+    padding:35px;
+}
+
+/* HEADER */
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:30px;
+    margin-bottom:7px;
+}
+
+.page-header p{
+    color:#758196;
+}
+
+/* PAYMENT OPTIONS */
+.payment-options{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.payment-option{
+    background:white;
+    border:1px solid #e2e7ee;
+    border-radius:14px;
+    padding:20px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.payment-option:hover{
+    border-color:#39d98a;
+    transform:translateY(-2px);
+}
+
+.payment-option.selected{
+    border:2px solid #39d98a;
+    background:#f3fff9;
+}
+
+.payment-icon{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.payment-option h3{
+    font-size:15px;
+    margin-bottom:6px;
+}
+
+.payment-option p{
+    color:#7a8699;
+    font-size:12px;
+}
+
+/* SEND AREA */
+.payment-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:25px;
+}
+
+.panel{
+    background:white;
+    border:1px solid #e3e8ef;
+    border-radius:15px;
+    padding:25px;
+}
+
+.panel h2{
+    font-size:19px;
+    margin-bottom:20px;
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input,
+select{
+    width:100%;
+    padding:13px;
+    border:1px solid #d9dfe8;
+    border-radius:8px;
+    font-size:14px;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#39d98a;
+}
+
+.row{
+    display:flex;
+    gap:12px;
+}
+
+.row .form-group{
+    width:50%;
+}
+
+.primary-btn{
+    width:100%;
+    border:0;
+    background:#39d98a;
+    color:#06172f;
+    padding:15px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.primary-btn:hover{
+    opacity:.9;
+}
+
+/* INFO CARD */
+.info-card{
+    background:linear-gradient(135deg,#071a3d,#123968);
+    color:white;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.info-card h3{
+    margin-bottom:12px;
+}
+
+.info-card p{
+    color:#c6d1e1;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.detail{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #e9edf2;
+    font-size:13px;
+}
+
+.detail:last-child{
+    border-bottom:0;
+}
+
+.detail span:last-child{
+    font-weight:bold;
+}
+
+/* RECENT */
+.recent{
+    margin-top:25px;
+}
+
+.transaction{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.transaction:last-child{
+    border-bottom:0;
+}
+
+.transaction-left{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.transaction-icon{
+    width:40px;
+    height:40px;
+    background:#eef3f9;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.transaction-name{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.transaction-date{
+    color:#8b96a8;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.amount{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.positive{
+    color:#13965c;
+}
+
+.negative{
+    color:#d94848;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:2000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:440px;
+    padding:30px;
+    border-radius:15px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.close{
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:1100px){
+    .payment-options{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .payment-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:800px){
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 18px;
+    }
+
+    .content{
+        padding:20px;
+    }
+}
+
+@media(max-width:600px){
+    .payment-options{
+        grid-template-columns:1fr;
+    }
+
+    .row{
+        display:block;
+    }
+
+    .row .form-group{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        Vondo<span>Bank</span>
+    </div>
+
+    <div class="menu-title">Main</div>
+
+    <a href="dashboard.html">
+        🏠 Dashboard
+    </a>
+
+    <a href="#">
+        💰 Accounts
+    </a>
+
+    <a href="payments.html" class="active">
+        💸 Payments
+    </a>
+
+    <a href="#">
+        🔄 Transfers
+    </a>
+
+    <a href="#">
+        💱 Exchange
+    </a>
+
+    <div class="menu-title">Digital Assets</div>
+
+    <a href="#">
+        ₿ Crypto Wallet
+    </a>
+
+    <a href="#">
+        💳 Cards
+    </a>
+
+    <div class="menu-title">Account</div>
+
+    <a href="#">
+        📄 Statements
+    </a>
+
+    <a href="#">
+        🔔 Notifications
+    </a>
+
+    <a href="#">
+        ⚙️ Settings
+    </a>
+
+    <a href="index.html" onclick="logout()">
+        🚪 Sign Out
+    </a>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <header class="topbar">
+
+        <button class="menu-btn" onclick="toggleSidebar()">
+            ☰
+        </button>
+
+        <h2>Global Payments</h2>
+
+        <div class="profile">
+
+            <div class="avatar" id="avatar">
+                V
+            </div>
+
+            <span id="profileName">
+                Vondo Customer
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <div class="content">
+
+        <div class="page-header">
+
+            <h1>Send money globally 🌍</h1>
+
+            <p>
+                Choose a payment method and send money using the
+                appropriate supported payment network.
+            </p>
+
+        </div>
+
+
+        <!-- PAYMENT METHODS -->
+
+        <div class="payment-options">
+
+            <div class="payment-option selected"
+                 onclick="selectMethod(this,'International Bank Transfer')">
+
+                <div class="payment-icon">🏦</div>
+
+                <h3>Bank Transfer</h3>
+
+                <p>
+                    International transfers and supported bank networks.
+                </p>
+
+            </div>
+
+
+            <div class="payment-option"
+                 onclick="selectMethod(this,'Card Payment')">
+
+                <div class="payment-icon">💳</div>
+
+                <h3>Card</h3>
+
+                <p>
+                    Pay using supported debit and credit cards.
+                </p>
+
+            </div>
+
+
+            <div class="payment-option"
+                 onclick="selectMethod(this,'UPI')">
+
+                <div class="payment-icon">🇮🇳</div>
+
+                <h3>UPI</h3>
+
+                <p>
+                    Designed for supported payments in India.
+                </p>
+
+            </div>
+
+
+            <div class="payment-option"
+                 onclick="selectMethod(this,'Alipay / WeChat Pay')">
+
+                <div class="payment-icon">🇨🇳</div>
+
+                <h3>Alipay / WeChat Pay</h3>
+
+                <p>
+                    Designed for supported payments in China.
+                </p>
+
+            </div>
+
+
+            <div class="payment-option"
+                 onclick="selectMethod(this,'SEPA')">
+
+                <div class="payment-icon">🇪🇺</div>
+
+                <h3>SEPA</h3>
+
+                <p>
+                    European euro payment network.
+                </p>
+
+            </div>
+
+
+            <div class="payment-option"
+                 onclick="selectMethod(this,'ACH / Wire')">
+
+                <div class="payment-icon">🇺🇸</div>
+
+                <h3>ACH / Wire</h3>
+
+                <p>
+                    US payment and wire transfer options.
+                </p>
+
+            </div>
+
+
+            <div class="payment-option"
+                 onclick="selectMethod(this,'Faster Payments')">
+
+                <div class="payment-icon">🇬🇧</div>
+
+                <h3>Faster Payments</h3>
+
+                <p>
+                    UK payment network for supported transfers.
+                </p>
+
+            </div>
+
+
+            <div class="payment-option"
+                 onclick="selectMethod(this,'Crypto')">
+
+                <div class="payment-icon">₿</div>
+
+                <h3>Crypto</h3>
+
+                <p>
+                    Send supported digital assets.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT FORM -->
+
+        <div class="payment-grid">
+
+            <div class="panel">
+
+                <h2 id="selectedMethod">
+                    International Bank Transfer
+                </h2>
+
+                <form id="paymentForm">
+
+                    <div class="form-group">
+
+                        <label>Recipient Name</label>
+
+                        <input
+                            type="text"
+                            id="recipientName"
+                            placeholder="Enter recipient name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Recipient Email</label>
+
+                        <input
+                            type="email"
+                            id="recipientEmail"
+                            placeholder="recipient@example.com"
+                            required>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="form-group">
+
+                            <label>Currency</label>
+
+                            <select id="currency">
+
+                                <option>USD</option>
+                                <option>EUR</option>
+                                <option>GBP</option>
+                                <option>CAD</option>
+                                <option>AUD</option>
+                                <option>JPY</option>
+                                <option>SGD</option>
+                                <option>CHF</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Amount</label>
+
+                            <input
+                                type="number"
+                                id="amount"
+                                placeholder="0.00"
+                                min="0"
+                                step="0.01"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Destination Country</label>
+
+                        <select id="country">
+
+                            <option>United States</option>
+                            <option>United Kingdom</option>
+                            <option>India</option>
+                            <option>China</option>
+                            <option>Japan</option>
+                            <option>South Korea</option>
+                            <option>Singapore</option>
+                            <option>Germany</option>
+                            <option>France</option>
+                            <option>Australia</option>
+                            <option>Canada</option>
+                            <option>United Arab Emirates</option>
+                            <option>South Africa</option>
+                            <option>Nigeria</option>
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Payment Reference</label>
+
+                        <input
+                            type="text"
+                            id="reference"
+                            placeholder="Optional reference">
+
+                    </div>
+
+
+                    <button class="primary-btn" type="submit">
+                        Continue Payment
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- RIGHT INFORMATION -->
+
+            <div>
+
+                <div class="info-card">
+
+                    <h3>Vondo Global Account</h3>
+
+                    <p>
+                        Your prototype account can be designed to connect
+                        to different payment networks depending on the
+                        customer's location and supported provider.
+                    </p>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <h2>Payment information</h2>
+
+                    <div class="detail">
+                        <span>Selected method</span>
+                        <span id="methodInfo">Bank Transfer</span>
+                    </div>
+
+                    <div class="detail">
+                        <span>Estimated processing</span>
+                        <span>Varies</span>
+                    </div>
+
+                    <div class="detail">
+                        <span>Exchange rate</span>
+                        <span>Live rate later</span>
+                    </div>
+
+                    <div class="detail">
+                        <span>Transfer status</span>
+                        <span>Ready</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT PAYMENTS -->
+
+        <div class="panel recent">
+
+            <div class="panel-header">
+
+                <h2>Recent Payments</h2>
+
+                <a href="#" class="view-all">
+                    View all
+                </a>
+
+            </div>
+
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-icon">
+                        🇺🇸
+                    </div>
+
+                    <div>
+
+                        <div class="transaction-name">
+                            Michael Anderson
+                        </div>
+
+                        <div class="transaction-date">
+                            International Transfer • Aug 26, 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="amount negative">
+                    -$750.00
+                </div>
+
+            </div>
+
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-icon">
+                        🇮🇳
+                    </div>
+
+                    <div>
+
+                        <div class="transaction-name">
+                            Ravi Sharma
+                        </div>
+
+                        <div class="transaction-date">
+                            UPI • Aug 25, 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="amount positive">
+                    +$1,200.00
+                </div>
+
+            </div>
+
+
+            <div class="transaction">
+
+                <div class="transaction-left">
+
+                    <div class="transaction-icon">
+                        ₿
+                    </div>
+
+                    <div>
+
+                        <div class="transaction-name">
+                            Crypto Wallet
+                        </div>
+
+                        <div class="transaction-date">
+                            BTC • Aug 24, 2026
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="amount negative">
+                    -$500.00
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+<!-- CONFIRMATION MODAL -->
+
+<div class="modal" id="confirmationModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>Payment Ready</h2>
+
+            <button class="close" onclick="closeModal()">
+                ×
+            </button>
+
+        </div>
+
+        <p id="confirmationText"
+           style="color:#718096;line-height:1.6;margin-bottom:20px;">
+        </p>
+
+        <button
+            class="primary-btn"
+            onclick="finishPayment()">
+            Continue
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* USER */
+
+const user =
+    JSON.parse(localStorage.getItem("vondoUser") || "null");
+
+if(user){
+
+    document.getElementById("profileName").textContent =
+        user.firstName + " " + user.lastName;
+
+    document.getElementById("avatar").textContent =
+        (
+            user.firstName.charAt(0) +
+            user.lastName.charAt(0)
+        ).toUpperCase();
+
+}
+
+
+/* SIDEBAR */
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* SELECT PAYMENT METHOD */
+
+let currentMethod =
+    "International Bank Transfer";
+
+
+function selectMethod(element,method){
+
+    document
+        .querySelectorAll(".payment-option")
+        .forEach(card => {
+            card.classList.remove("selected");
+        });
+
+    element.classList.add("selected");
+
+    currentMethod = method;
+
+    document.getElementById("selectedMethod").textContent =
+        method;
+
+    document.getElementById("methodInfo").textContent =
+        method;
+
+}
+
+
+/* PAYMENT SUBMISSION */
+
+document
+    .getElementById("paymentForm")
+    .addEventListener("submit",function(e){
+
+        e.preventDefault();
+
+        const name =
+            document.getElementById("recipientName").value;
+
+        const currency =
+            document.getElementById("currency").value;
+
+        const amount =
+            document.getElementById("amount").value;
+
+        const country =
+            document.getElementById("country").value;
+
+        document.getElementById("confirmationText").textContent =
+            "You're preparing a " +
+            currentMethod +
+            " payment of " +
+            currency +
+            " " +
+            Number(amount).toLocaleString() +
+            " to " +
+            name +
+            " in " +
+            country +
+            ". This is a prototype and no real money will be transferred.";
+
+        document.getElementById("confirmationModal").style.display =
+            "flex";
+
+    });
+
+
+/* CLOSE */
+
+function closeModal(){
+
+    document.getElementById("confirmationModal").style.display =
+        "none";
+
+}
+
+
+/* FINISH */
+
+function finishPayment(){
+
+    alert(
+        "Prototype payment created successfully.\n\n" +
+        "Real payment processing will require connection to an appropriate regulated payment provider."
+    );
+
+    closeModal();
+
+    document.getElementById("paymentForm").reset();
+
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+    localStorage.removeItem("vondoLoggedIn");
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vondo Bank | Admin Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    color:#14213d;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#071a3d;
+    color:white;
+    padding:25px 15px;
+    z-index:1000;
+    overflow-y:auto;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    padding:0 15px 8px;
+}
+
+.logo span{
+    color:#39d98a;
+}
+
+.admin-label{
+    color:#7f91aa;
+    font-size:11px;
+    padding:0 15px 25px;
+}
+
+.menu-title{
+    color:#8492a8;
+    font-size:11px;
+    margin:18px 15px 8px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#c8d2e2;
+    text-decoration:none;
+    padding:13px 15px;
+    margin:4px 0;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+    background:#12315d;
+    color:white;
+}
+
+.sidebar a.active{
+    border-left:3px solid #39d98a;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid #e4e8ef;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+}
+
+.menu-btn{
+    display:none;
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.top-title h2{
+    font-size:19px;
+}
+
+.top-title p{
+    font-size:11px;
+    color:#8490a2;
+    margin-top:3px;
+}
+
+.admin-profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#071a3d;
+    color:#39d98a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.admin-profile small{
+    display:block;
+    color:#7c889a;
+    margin-top:3px;
+}
+
+/* CONTENT */
+
+.content{
+    padding:30px;
+    max-width:1500px;
+    margin:auto;
+}
+
+.welcome{
+    margin-bottom:25px;
+}
+
+.welcome h1{
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.welcome p{
+    color:#758196;
+}
+
+/* STATISTICS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid #e2e7ee;
+    border-radius:14px;
+    padding:20px;
+}
+
+.stat-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.stat-icon{
+    width:45px;
+    height:45px;
+    background:#eef3f9;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+}
+
+.stat-card h3{
+    font-size:25px;
+    margin-bottom:5px;
+}
+
+.stat-card p{
+    color:#7c889a;
+    font-size:12px;
+}
+
+.stat-change{
+    color:#13a463;
+    font-size:11px;
+}
+
+/* GRID */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.panel{
+    background:white;
+    border:1px solid #e2e7ee;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.panel-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.panel-header h2{
+    font-size:18px;
+}
+
+.panel-header p{
+    color:#7c889a;
+    font-size:11px;
+    margin-top:5px;
+}
+
+/* BUTTONS */
+
+.btn{
+    border:0;
+    border-radius:7px;
+    padding:10px 14px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.btn-primary{
+    background:#39d98a;
+    color:#071a3d;
+}
+
+.btn-secondary{
+    background:#eef3f9;
+    color:#14213d;
+}
+
+.btn-danger{
+    background:#fff0f0;
+    color:#c93636;
+}
+
+.btn-small{
+    padding:7px 10px;
+    font-size:10px;
+}
+
+/* TABLE */
+
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th{
+    background:#f7f9fc;
+    text-align:left;
+    color:#758196;
+    font-size:11px;
+    padding:12px;
+}
+
+td{
+    padding:14px 12px;
+    border-bottom:1px solid #edf0f4;
+    font-size:12px;
+}
+
+td strong{
+    font-size:12px;
+}
+
+.status{
+    display:inline-block;
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.status.success{
+    background:#e8fff3;
+    color:#08784d;
+}
+
+.status.pending{
+    background:#fff5d8;
+    color:#946c00;
+}
+
+.status.failed{
+    background:#fff0f0;
+    color:#c93636;
+}
+
+.status.review{
+    background:#eef3ff;
+    color:#3c5aa8;
+}
+
+/* QUICK ACTIONS */
+
+.quick-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.quick-action{
+    border:1px solid #e3e8ef;
+    border-radius:10px;
+    padding:16px;
+    background:#fafcfe;
+    cursor:pointer;
+    text-align:left;
+}
+
+.quick-action:hover{
+    border-color:#39d98a;
+}
+
+.quick-action span{
+    font-size:23px;
+    display:block;
+    margin-bottom:8px;
+}
+
+.quick-action strong{
+    display:block;
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.quick-action small{
+    color:#7c889a;
+    font-size:10px;
+}
+
+/* ACTIVITY */
+
+.activity{
+    display:flex;
+    gap:12px;
+    padding:14px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.activity:last-child{
+    border-bottom:0;
+}
+
+.activity-icon{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#eef3f9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.activity h4{
+    font-size:12px;
+    margin-bottom:4px;
+}
+
+.activity p{
+    font-size:10px;
+    color:#7c889a;
+}
+
+/* KYC */
+
+.kyc-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:14px 0;
+    border-bottom:1px solid #edf0f4;
+}
+
+.kyc-item:last-child{
+    border-bottom:0;
+}
+
+.kyc-user{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.kyc-avatar{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:#071a3d;
+    color:#39d98a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.kyc-user h4{
+    font-size:12px;
+}
+
+.kyc-user p{
+    color:#7c889a;
+    font-size:10px;
+    margin-top:3px;
+}
+
+/* SEARCH */
+
+.search-box{
+    display:flex;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.search-box input{
+    flex:1;
+    border:1px solid #d9dfe8;
+    border-radius:8px;
+    padding:11px;
+    outline:none;
+}
+
+.search-box input:focus{
+    border-color:#39d98a;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    background:white;
+    border-radius:15px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.close{
+    border:0;
+    background:none;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.modal-body{
+    color:#637085;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 18px;
+    }
+
+    .content{
+        padding:20px;
+    }
+
+}
+
+@media(max-width:550px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .admin-profile span{
+        display:none;
+    }
+
+    .welcome h1{
+        font-size:24px;
+    }
+
+    .quick-actions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        Vondo<span>Bank</span>
+    </div>
+
+    <div class="admin-label">
+        ADMINISTRATION PORTAL
+    </div>
+
+    <div class="menu-title">
+        Overview
+    </div>
+
+    <a href="admin-dashboard.html" class="active">
+        📊 Dashboard
+    </a>
+
+    <a href="#" onclick="showUsers()">
+        👥 Customers
+    </a>
+
+    <a href="#" onclick="showTransactions()">
+        💸 Transactions
+    </a>
+
+    <div class="menu-title">
+        Financial Services
+    </div>
+
+    <a href="#">
+        💰 Accounts
+    </a>
+
+    <a href="#">
+        🌍 International Payments
+    </a>
+
+    <a href="crypto.html">
+        ₿ Digital Assets
+    </a>
+
+    <a href="cards.html">
+        💳 Cards
+    </a>
+
+    <div class="menu-title">
+        Verification
+    </div>
+
+    <a href="kyc.html">
+        🛡️ KYC Reviews
+    </a>
+
+    <div class="menu-title">
+        System
+    </div>
+
+    <a href="settings.html">
+        ⚙️ Settings
+    </a>
+
+    <a href="index.html" onclick="adminLogout()">
+        🚪 Sign Out
+    </a>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <button class="menu-btn" onclick="toggleSidebar()">
+            ☰
+        </button>
+
+        <div class="top-title">
+
+            <h2>
+                Administration
+            </h2>
+
+            <p>
+                Vondo Bank Management Console
+            </p>
+
+        </div>
+
+
+        <div class="admin-profile">
+
+            <div class="avatar">
+                VA
+            </div>
+
+            <div>
+
+                <strong>
+                    Vondo Admin
+                </strong>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <div class="content">
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h1>
+                Admin Dashboard
+            </h1>
+
+            <p>
+                Monitor customers, transactions and platform activity.
+            </p>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <span class="stat-change">
+                        +12.5%
+                    </span>
+
+                </div>
+
+                <h3 id="customerCount">
+                    1,248
+                </h3>
+
+                <p>
+                    Total Customers
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <span class="stat-change">
+                        +8.4%
+                    </span>
+
+                </div>
+
+                <h3>
+                    $8.42M
+                </h3>
+
+                <p>
+                    Total Assets
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        💸
+                    </div>
+
+                    <span class="stat-change">
+                        +16.2%
+                    </span>
+
+                </div>
+
+                <h3>
+                    6,482
+                </h3>
+
+                <p>
+                    Transactions
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon">
+                        ₿
+                    </div>
+
+                    <span class="stat-change">
+                        +5.7%
+                    </span>
+
+                </div>
+
+                <h3>
+                    $2.16M
+                </h3>
+
+                <p>
+                    Digital Assets
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- MAIN GRID -->
+
+        <div class="dashboard-grid">
+
+
+            <div>
+
+
+                <!-- TRANSACTIONS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2>
+                                Recent Transactions
+                            </h2>
+
+                            <p>
+                                Latest payment activity
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="showTransactions()">
+
+                            View All
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="search-box">
+
+                        <input
+                            type="text"
+                            id="transactionSearch"
+                            placeholder="Search transaction..."
+                            onkeyup="filterTransactions()">
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Transaction
+                                    </th>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Amount
+                                    </th>
+
+                                    <th>
+                                        Type
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="transactionTable">
+
+                                <tr>
+
+                                    <td>
+                                        <strong>#VD982431</strong>
+                                    </td>
+
+                                    <td>
+                                        Michael Chen
+                                    </td>
+
+                                    <td>
+                                        $4,250.00
+                                    </td>
+
+                                    <td>
+                                        International Transfer
+                                    </td>
+
+                                    <td>
+                                        <span class="status success">
+                                            Completed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <strong>#VD982430</strong>
+                                    </td>
+
+                                    <td>
+                                        Sarah Williams
+                                    </td>
+
+                                    <td>
+                                        $850.00
+                                    </td>
+
+                                    <td>
+                                        Card Payment
+                                    </td>
+
+                                    <td>
+                                        <span class="status pending">
+                                            Pending
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <strong>#VD982429</strong>
+                                    </td>
+
+                                    <td>
+                                        Arjun Patel
+                                    </td>
+
+                                    <td>
+                                        $2,100.00
+                                    </td>
+
+                                    <td>
+                                        Crypto Deposit
+                                    </td>
+
+                                    <td>
+                                        <span class="status success">
+                                            Completed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <strong>#VD982428</strong>
+                                    </td>
+
+                                    <td>
+                                        Daniel Okoro
+                                    </td>
+
+                                    <td>
+                                        $1,500.00
+                                    </td>
+
+                                    <td>
+                                        Bank Transfer
+                                    </td>
+
+                                    <td>
+                                        <span class="status review">
+                                            Under Review
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- KYC -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2>
+                                KYC Reviews
+                            </h2>
+
+                            <p>
+                                Customers awaiting verification
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="openModal('KYC Reviews','This area will display customer identity-verification requests when the secure backend is connected.')">
+
+                            Manage
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="kyc-item">
+
+                        <div class="kyc-user">
+
+                            <div class="kyc-avatar">
+                                JS
+                            </div>
+
+                            <div>
+
+                                <h4>
+                                    James Smith
+                                </h4>
+
+                                <p>
+                                    Software Engineer • United States
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+                    </div>
+
+
+                    <div class="kyc-item">
+
+                        <div class="kyc-user">
+
+                            <div class="kyc-avatar">
+                                AK
+                            </div>
+
+                            <div>
+
+                                <h4>
+                                    Aisha Khan
+                                </h4>
+
+                                <p>
+                                    Business Owner • India
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+                    </div>
+
+
+                    <div class="kyc-item">
+
+                        <div class="kyc-user">
+
+                            <div class="kyc-avatar">
+                                LM
+                            </div>
+
+                            <div>
+
+                                <h4>
+                                    Lucas Martin
+                                </h4>
+
+                                <p>
+                                    Accountant • France
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="status review">
+                            Review
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- RIGHT COLUMN -->
+
+            <div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2>
+                                Quick Actions
+                            </h2>
+
+                            <p>
+                                Administrative tools
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <button
+                            class="quick-action"
+                            onclick="showUsers()">
+
+                            <span>
+                                👥
+                            </span>
+
+                            <strong>
+                                Customers
+                            </strong>
+
+                            <small>
+                                Manage customers
+                            </small>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="showTransactions()">
+
+                            <span>
+                                💸
+                            </span>
+
+                            <strong>
+                                Transactions
+                            </strong>
+
+                            <small>
+                                Review payments
+                            </small>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="window.location.href='kyc.html'">
+
+                            <span>
+                                🛡️
+                            </span>
+
+                            <strong>
+                                KYC
+                            </strong>
+
+                            <small>
+                                Verification
+                            </small>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="openModal('System Settings','System configuration will be connected to the secure Vondo backend.')">
+
+                            <span>
+                                ⚙️
+                            </span>
+
+                            <strong>
+                                Settings
+                            </strong>
+
+                            <small>
+                                Platform settings
+                            </small>
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVITY -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2>
+                                Admin Activity
+                            </h2>
+
+                            <p>
+                                Recent system events
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            👤
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                New customer registered
+                            </h4>
+
+                            <p>
+                                5 minutes ago
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            💸
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                International payment processed
+                            </h4>
+
+                            <p>
+                                18 minutes ago
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            ₿
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Crypto transaction received
+                            </h4>
+
+                            <p>
+                                31 minutes ago
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div class="activity-icon">
+                            🛡️
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                KYC verification submitted
+                            </h4>
+
+                            <p>
+                                45 minutes ago
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SYSTEM STATUS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h2>
+                                System Status
+                            </h2>
+
+                            <p>
+                                Vondo platform services
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="security-item"
+                         style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #edf0f4;">
+
+                        <span style="font-size:12px;">
+                            Banking Services
+                        </span>
+
+                        <span class="status success">
+                            Operational
+                        </span>
+
+                    </div>
+
+
+                    <div class="security-item"
+                         style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #edf0f4;">
+
+                        <span style="font-size:12px;">
+                            Payment Processing
+                        </span>
+
+                        <span class="status success">
+                            Operational
+                        </span>
+
+                    </div>
+
+
+                    <div class="security-item"
+                         style="display:flex;justify-content:space-between;padding:12px 0;">
+
+                        <span style="font-size:12px;">
+                            Digital Assets
+                        </span>
+
+                        <span class="status success">
+                            Operational
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Vondo Bank
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-body"
+            id="modalBody">
+
+            Information
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="closeModal()">
+
+                Continue
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* SIDEBAR */
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* MODAL */
+
+function openModal(title,message){
+
+    document.getElementById("modalTitle")
+        .textContent = title;
+
+    document.getElementById("modalBody")
+        .textContent = message;
+
+    document.getElementById("modal")
+        .style.display = "flex";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById("modal")
+        .style.display = "none";
+
+}
+
+
+/* USERS */
+
+function showUsers(){
+
+    openModal(
+        "Customer Management",
+        "Customer management will display registered Vondo customers, account status, verification status and permitted administrative actions when the secure backend is connected."
+    );
+
+}
+
+
+/* TRANSACTIONS */
+
+function showTransactions(){
+
+    openModal(
+        "Transaction Management",
+        "Transaction management will display payment records, transfer status, transaction references and permitted administrative review tools when the secure backend is connected."
+    );
+
+}
+
+
+/* SEARCH TRANSACTIONS */
+
+function filterTransactions(){
+
+    const input =
+        document
+        .getElementById("transactionSearch")
+        .value
+        .toLowerCase();
+
+
+    const rows =
+        document
+        .querySelectorAll("#transactionTable tr");
+
+
+    rows.forEach(function(row){
+
+        const text =
+            row.textContent.toLowerCase();
+
+        row.style.display =
+            text.includes(input)
+            ? ""
+            : "none";
+
+    });
+
+}
+
+
+/* ADMIN LOGOUT */
+
+function adminLogout(){
+
+    localStorage.removeItem(
+        "vondoAdminLoggedIn"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
